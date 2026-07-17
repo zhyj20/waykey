@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+
+# Prototype only. Replace with the approved production crawl policy after the formal domain, content and evidence records are verified.
