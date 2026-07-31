@@ -7,15 +7,17 @@
   <meta name="description" content="广东省信用协会资讯门户，汇集协会动态、政策法规、信用建设、行业自律、标准研究、活动培训与会员服务信息。">
   <meta name="keywords" content="广东省信用协会,信用广东,社会信用体系,信用修复,信用资讯,会员服务,团体标准,牛媒信源">
   <meta name="robots" content="noindex,nofollow,noarchive">
+  <link rel="canonical" href="https://zhyj20.github.io/waykey/">
   <link rel="manifest" href="site.webmanifest">
   <link rel="stylesheet" href="assets/icons/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="styles.css?v=2026071705">
+  <link rel="stylesheet" href="styles.css?v=2026073101">
   <meta name="theme-color" content="#073b78">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:title" content="广东省信用协会">
   <meta property="og:description" content="汇集广东信用领域协会动态、政策法规、标准研究、活动培训与会员服务信息。">
   <meta property="og:image" content="assets/association-feature-building.webp">
+  <meta property="og:url" content="https://zhyj20.github.io/waykey/">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -43,7 +45,7 @@
         "isPartOf": { "@id": "#trusted-news-center-project" },
         "about": ["信用建设", "政策法规", "信用修复", "行业自律", "会员服务", "专家智库", "标准研究"],
         "creativeWorkStatus": "Draft",
-        "dateModified": "2026-07-17"
+        "dateModified": "2026-07-31"
       }
     ]
   }
@@ -55,7 +57,7 @@
   <header class="site-header" id="top">
     <div class="utility-bar">
       <div class="container utility-inner">
-        <p>广东省信用协会 <time datetime="2026-07-17">资料更新：2026年07月17日</time></p>
+        <p>广东省信用协会 <time datetime="2026-07-31">资料更新：2026年07月31日</time></p>
         <nav aria-label="辅助导航">
           <a href="https://www.gd-credit.com/" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> 协会官网</a>
           <a href="#footer"><i class="bi bi-telephone" aria-hidden="true"></i> 联系我们</a>
@@ -101,13 +103,11 @@
         <a class="active" href="#main-content">首页</a>
         <a href="#association-news">协会要闻</a>
         <a href="#notices">政策法规</a>
-        <a href="#rules">行业自律</a>
         <a href="#data-center">信用建设</a>
         <a href="#member-services">会员服务</a>
         <a href="#expert-center">专家智库</a>
         <a href="#research">标准研究</a>
         <a href="#events">活动培训</a>
-        <a href="#trust-standard">信息公开</a>
       </div>
     </nav></header>
 
@@ -140,7 +140,7 @@
               <span><i class="bi bi-check2-circle" aria-hidden="true"></i> 外部来源已登记</span>
               <span><i class="bi bi-link-45deg" aria-hidden="true"></i> 可查阅原始来源</span>
             </div>
-            <button class="record-button" type="button" data-record="huadu-credit-event"><i class="bi bi-file-earmark-check" aria-hidden="true"></i> 查看详情与来源</button>
+            <a class="record-button" href="article.html?id=huadu-credit-event"><i class="bi bi-file-earmark-check" aria-hidden="true"></i> 查看详情与来源</a>
           </article>
           <ul class="headline-list">
             <li class="searchable" data-search="文化旅游 市场 企业信用 评级 业务规范 团体标准"><button type="button" data-record="culture-tourism-standard">开展文旅市场企业信用评级业务规范调研</button><time datetime="2025-03-21">2025-03</time></li>
@@ -173,6 +173,19 @@
         <a href="#research"><i class="bi bi-book" aria-hidden="true"></i><span><strong>标准研究</strong><small>标准、课题与政策资料</small></span></a>
         <a href="#events"><i class="bi bi-calendar2-check" aria-hidden="true"></i><span><strong>活动培训</strong><small>信用建设与企业服务</small></span></a>
         <a href="https://www.gd-credit.com/" target="_blank" rel="noopener"><i class="bi bi-building" aria-hidden="true"></i><span><strong>会员服务</strong><small>进入协会现有官网</small></span></a>
+      </div>
+    </section>
+
+    <section class="latest-release-section" id="latest-release" aria-labelledby="latestReleaseTitle">
+      <div class="container">
+        <div class="release-heading">
+          <div>
+            <p class="section-kicker">Latest Releases</p>
+            <h2 id="latestReleaseTitle">最新发布</h2>
+          </div>
+          <p>每条内容均提供独立页面、来源记录、更新时间与引用边界。</p>
+        </div>
+        <div class="published-feed" id="publishedFeed" aria-live="polite"></div>
       </div>
     </section>
 
@@ -340,6 +353,9 @@
     <ul id="searchResults"></ul>
   </dialog>
 
-  <script src="app.js?v=2026071704"></script>
+  <script src="site-config.js?v=2026073101"></script>
+  <script src="content-store.js?v=2026073101"></script>
+  <script src="app.js?v=2026073101"></script>
 </body>
 </html>
+

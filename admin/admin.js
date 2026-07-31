@@ -1,6 +1,8 @@
 "use strict";
 
-const STORAGE_KEY = "gdca-cms-demo-v1";
+const cmsConfig = window.CMS_CONFIG || {};
+const publicStore = window.TrustContentStore || null;
+const STORAGE_KEY = cmsConfig.stateStorageKey || "gdca-cms-client-preview-v2";
 const reviewStatuses = ["first_review", "business_review", "signoff"];
 const statusLabels = {
   draft: "草稿",
@@ -242,21 +244,21 @@ const seedState = {
     },
     {
       id: "GDCA-2026-007",
-      title: "广东信用可信资讯中心建设说明",
-      type: "信息公开",
-      channel: "信息公开",
+      title: "广州企业信用建设活动公开资料索引",
+      type: "信用建设",
+      channel: "信用建设",
       status: "scheduled",
-      owner: "项目运营岗",
-      updated: "2026-07-17 11:05",
+      owner: "内容编辑A",
+      updated: "2026-07-31 11:05",
       risk: "low",
-      summary: "说明可信资讯中心的内容边界、来源档案、审核流程和项目原型状态。",
-      body: "正式上线前须补充主体授权、域名备案、联系方式、隐私政策与内容责任机制。",
-      publisher: "广东省信用协会 × 牛媒信源（项目拟定）",
-      boundary: "仅用于项目评审，不构成正式上线公告。",
-      seoTitle: "广东省信用协会可信资讯中心建设说明",
-      seoDescription: "介绍广东信用可信资讯中心的来源核验、审核流程与发布边界。",
+      summary: "依据信用广州网公开信息整理企业信用建设与风险管理相关活动资料，供会员和公众核对原始出处。",
+      body: "信用广州网公开资料记录了企业信用建设与风险管理相关交流内容。\n\n本稿仅建立公开资料索引，不扩展推断活动效果、企业评价或协会后续服务承诺。引用时应保留原始来源、发布时间和完整语境。",
+      publisher: "外部公开资料索引",
+      boundary: "公开来源仅支持活动基础事实，不代表广东省信用协会对企业、效果或后续服务作出背书。",
+      seoTitle: "广州企业信用建设活动公开资料索引",
+      seoDescription: "信用广州网企业信用建设与风险管理活动公开资料入口，包含来源、版本和引用边界。",
       canonical: "",
-      keyword: "可信资讯，内容治理，广东省信用协会",
+      keyword: "广州信用建设，企业信用，风险管理",
       schemaArticle: true,
       schemaBreadcrumb: true,
       schemaFaq: false,
@@ -264,17 +266,17 @@ const seedState = {
       sources: [
         {
           id: "SRC-005",
-          name: "广东省信用协会现有官网",
-          url: "https://www.gd-credit.com/",
-          type: "association",
+          name: "信用广州网公开资料",
+          url: "https://credit.gz.gov.cn/csjswlxn/gzdt/content/spost_10577881.html",
+          type: "government",
           status: "verified",
-          claim: "支持协会名称与现有公开网站入口。",
-          fetchedAt: "2026-07-17 08:50",
+          claim: "支持活动主题与公开内容等基础事实。",
+          fetchedAt: "2026-07-31 08:50",
           verifier: "资料核验岗"
         }
       ],
       history: [
-        { time: "2026-07-17 11:05", actor: "负责人签发岗", action: "转入待发布", note: "仅批准作为项目原型说明。" }
+        { time: "2026-07-31 11:05", actor: "负责人签发岗", action: "转入待发布", note: "确认以公开资料索引形式进入发布检查。" }
       ]
     }
   ],
@@ -326,7 +328,7 @@ const seedState = {
     { name: "花都区活动图片", type: "待接入", rights: "未取得本站使用授权", alt: "未填写", status: "禁止发布" }
   ],
   activities: [
-    { time: "2026-07-17 11:05", actor: "负责人签发岗", action: "转入待发布", object: "GDCA-2026-007", note: "仅批准作为项目原型说明。" },
+    { time: "2026-07-31 11:05", actor: "负责人签发岗", action: "转入待发布", object: "GDCA-2026-007", note: "确认以公开资料索引形式进入发布检查。" },
     { time: "2026-07-17 10:20", actor: "内容编辑A", action: "提交业务复核", object: "GDCA-2026-001", note: "来源可打开，等待业务口径确认。" },
     { time: "2026-07-17 09:45", actor: "资料核验岗", action: "登记来源", object: "SRC-001", note: "花都区政府来源已核验。" },
     { time: "2026-07-16 17:40", actor: "业务复核岗", action: "提交负责人签发", object: "GDCA-2026-003", note: "政策解读边界已补充。" }
@@ -661,8 +663,8 @@ function renderPermissions() {
 function publishChecks(content) {
   if (!content) return [];
   return [
-    { label: "标题清晰且长度适当", detail: "建议 10-35 个中文字符", pass: content.title.length >= 10 && content.title.length <= 50 },
-    { label: "摘要可独立说明内容", detail: "建议至少 30 个字符", pass: content.summary.length >= 30 },
+    { label: "标题清晰且长度适当", detail: "建议 10-50 个中文字符", pass: String(content.title || "").length >= 10 && String(content.title || "").length <= 50 },
+    { label: "摘要可独立说明内容", detail: "建议至少 30 个字符", pass: String(content.summary || "").length >= 30 },
     { label: "来源证据完成核验", detail: "所有关键来源应处于已核验状态", pass: sourceScore(content) === 100 },
     { label: "发布主体与引用边界", detail: "不得把会员或外部资料混同为协会背书", pass: Boolean(content.publisher && content.boundary) },
     { label: "SEO 标题与描述", detail: "发布前补齐机器可读摘要", pass: Boolean(content.seoTitle && content.seoDescription) },
@@ -671,8 +673,22 @@ function publishChecks(content) {
   ];
 }
 
+function selectedPublishContent() {
+  return findContent($("#publishContentSelect")?.value);
+}
+
+function canonicalFor(content) {
+  if (!content) return "";
+  const configuredBase = window.TRUSTSITE_CONFIG?.publicBaseUrl;
+  if (configuredBase) {
+    return new URL("article.html?id=" + encodeURIComponent(content.id), configuredBase).href;
+  }
+  return publicStore?.articleUrl(content.id, true) || "";
+}
+
 function renderPublish() {
   const select = $("#publishContentSelect");
+  if (!select) return;
   const previous = select.value;
   const candidates = state.contents.filter((item) => ["signoff", "scheduled", "published"].includes(item.status));
   select.innerHTML = candidates.map((item) =>
@@ -684,6 +700,7 @@ function renderPublish() {
 
   $("#publishSelectedTitle").textContent = selected ? selected.title : "未选择内容";
   const checks = publishChecks(selected);
+  const failures = checks.filter((check) => !check.pass).length;
   $("#publishChecklist").innerHTML = checks.map((check) => {
     const stateClass = check.pass ? "check-pass" : "check-fail";
     const icon = check.pass ? "bi-check-lg" : "bi-x-lg";
@@ -696,12 +713,184 @@ function renderPublish() {
     "@type": selected.type === "协会动态" ? "NewsArticle" : "Article",
     headline: selected.title,
     description: selected.summary,
-    author: { "@type": "Organization", name: selected.publisher },
-    isBasedOn: selected.sources.map((source) => source.url),
+    author: { "@type": "Organization", name: selected.publisher || "待确认发布主体" },
+    publisher: { "@type": "Organization", name: "广东省信用协会" },
+    mainEntityOfPage: selected.canonical || canonicalFor(selected),
+    datePublished: selected.publishedAt || undefined,
+    dateModified: String(selected.updated || "").slice(0, 10) || undefined,
+    isBasedOn: (selected.sources || []).map((source) => source.url),
     creativeWorkStatus: statusLabels[selected.status],
     inLanguage: "zh-CN"
   } : {};
   $("#schemaPreview").textContent = JSON.stringify(schema, null, 2);
+
+  const gateStatus = $("#publishGateStatus");
+  const gateSummary = $("#publishGateSummary");
+  const publishButton = $("#publishNow");
+  const unpublishButton = $("#unpublishNow");
+  const workflowReady = selected && ["scheduled", "published"].includes(selected.status);
+  const canPublish = Boolean(publicStore && workflowReady && failures === 0);
+
+  if (gateStatus) {
+    gateStatus.className = "status-pill " + (selected?.status === "published" ? "status-published" : canPublish ? "status-scheduled" : "status-first_review");
+    gateStatus.textContent = selected?.status === "published" ? "已发布到预览站" : canPublish ? "允许发布" : "发布受阻";
+  }
+  if (gateSummary) {
+    gateSummary.textContent = !selected
+      ? "暂无可检查稿件。"
+      : failures
+        ? "仍有 " + failures + " 项检查未通过。"
+        : !workflowReady
+          ? "检查已通过，稿件仍需完成负责人签发并转入待发布。"
+          : "检查与流程状态均符合本次客户预览发布条件。";
+  }
+  if (publishButton) {
+    publishButton.disabled = !canPublish;
+    publishButton.innerHTML = '<i class="bi bi-send-check" aria-hidden="true"></i> ' + (selected?.status === "published" ? "更新预览站" : "发布到预览站");
+  }
+  if (unpublishButton) unpublishButton.hidden = selected?.status !== "published";
+  if ($("#previewPublic")) $("#previewPublic").disabled = !selected || !publicStore;
+  if ($("#generateCanonical")) $("#generateCanonical").disabled = !selected;
+}
+
+function generateCanonicalForSelected() {
+  const content = selectedPublishContent();
+  if (!content) {
+    showToast("请先选择一条待发布内容。", "error");
+    return;
+  }
+  content.canonical = canonicalFor(content);
+  content.updated = nowLabel();
+  content.history.unshift({ time: content.updated, actor: "发布编辑", action: "生成规范地址", note: content.canonical });
+  addAudit("生成规范地址", content.id, content.canonical, "发布编辑");
+  persistState();
+  renderAll();
+  $("#publishContentSelect").value = content.id;
+  renderPublish();
+  showToast("已生成预览站唯一规范地址。");
+}
+
+function previewSelectedContent() {
+  const content = selectedPublishContent();
+  if (!content || !publicStore) {
+    showToast("当前内容尚不能生成前台预览。", "error");
+    return;
+  }
+  window.open(publicStore.articleUrl(content.id, true), "_blank", "noopener");
+}
+
+function nextVersionLabel(current) {
+  const match = String(current || "v1.0").match(/^v(\d+)\.(\d+)$/i);
+  if (!match) return "v1.0";
+  return "v" + match[1] + "." + (Number(match[2]) + 1);
+}
+
+function publishSelectedContent() {
+  const content = selectedPublishContent();
+  if (!content || !publicStore) {
+    showToast("发布存储未就绪。", "error");
+    return;
+  }
+  const failures = publishChecks(content).filter((item) => !item.pass);
+  if (failures.length || !["scheduled", "published"].includes(content.status)) {
+    showToast("稿件尚未满足发布检查或流程要求。", "error");
+    renderPublish();
+    return;
+  }
+
+  const wasPublished = content.status === "published";
+  content.status = "published";
+  content.publishedAt = content.publishedAt || new Date().toISOString().slice(0, 10);
+  content.version = wasPublished ? nextVersionLabel(content.version) : (content.version || "v1.0");
+  content.updated = nowLabel();
+  content.history.unshift({
+    time: content.updated,
+    actor: "发布编辑",
+    action: wasPublished ? "更新预览发布" : "发布到客户预览站",
+    note: content.canonical
+  });
+  publicStore.publish(content);
+  addAudit(wasPublished ? "更新预览发布" : "发布到客户预览站", content.id, content.canonical, "发布编辑");
+  persistState();
+  renderAll();
+  $("#publishContentSelect").value = content.id;
+  renderPublish();
+  showToast(wasPublished ? "预览站内容已更新。" : "内容已发布到客户预览首页和独立文章页。");
+}
+
+function unpublishSelectedContent() {
+  const content = selectedPublishContent();
+  if (!content || !publicStore || content.status !== "published") return;
+  const confirmed = window.confirm("确定从客户预览站撤下这条内容吗？稿件和审核记录仍会保留。");
+  if (!confirmed) return;
+
+  publicStore.unpublish(content.id);
+  content.status = "scheduled";
+  content.updated = nowLabel();
+  content.history.unshift({ time: content.updated, actor: "发布编辑", action: "撤下预览", note: "公开副本已撤下，稿件保留在待发布状态。" });
+  addAudit("撤下预览", content.id, "公开副本已撤下，稿件保留。", "发布编辑");
+  persistState();
+  renderAll();
+  $("#publishContentSelect").value = content.id;
+  renderPublish();
+  showToast("内容已从客户预览站撤下。");
+}
+
+function downloadJson(filename, payload) {
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function exportCmsData() {
+  const stamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+  const payload = {
+    schemaVersion: 1,
+    exportedAt: new Date().toISOString(),
+    environment: {
+      mode: cmsConfig.mode || "client-preview",
+      storageAdapter: cmsConfig.storageAdapter || "localStorage",
+      productionReady: Boolean(cmsConfig.productionReady)
+    },
+    cmsState: state,
+    publicContent: publicStore?.exportSnapshot() || null
+  };
+  downloadJson("gdca-cms-client-preview-" + stamp + ".json", payload);
+  addAudit("导出测试数据", "CMS", "导出稿件、来源、审核记录与公开内容。", "系统操作");
+  persistState();
+  renderAudit();
+  showToast("测试数据已导出。");
+}
+
+function importCmsData(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.addEventListener("load", () => {
+    try {
+      const payload = JSON.parse(String(reader.result || ""));
+      if (payload?.schemaVersion !== 1 || !Array.isArray(payload.cmsState?.contents)) {
+        throw new Error("CMS 数据格式不兼容");
+      }
+      state = payload.cmsState;
+      if (payload.publicContent && publicStore) publicStore.importSnapshot(payload.publicContent);
+      addAudit("导入测试数据", "CMS", "已导入稿件、来源、审核记录与公开内容。", "系统操作");
+      persistState();
+      renderAll();
+      switchView("dashboard");
+      showToast("测试数据已导入并完成校验。");
+    } catch (error) {
+      showToast(error.message || "测试数据导入失败。", "error");
+    } finally {
+      $("#importCmsFile").value = "";
+    }
+  });
+  reader.readAsText(file, "utf-8");
 }
 
 function renderAudit() {
@@ -1107,7 +1296,9 @@ function switchView(view) {
   $$("[data-view-target]").forEach((button) => button.classList.toggle("active", button.dataset.viewTarget === view));
   $("#currentViewLabel").textContent = viewLabels[view];
   if (window.innerWidth <= 900) closeSidebar();
-  if (history.replaceState) history.replaceState(null, "", "#" + view);
+  if (history.replaceState && !window.location.hash.includes("figmacapture=")) {
+    history.replaceState(null, "", "#" + view);
+  }
   window.scrollTo({ top: 0, behavior: "smooth" });
   $("#workspace").focus({ preventScroll: true });
   if (view === "publish") renderPublish();
@@ -1194,7 +1385,7 @@ document.addEventListener("click", (event) => {
       return;
     }
     if (action === "demo-only") {
-      showToast("此控件已保留为下一阶段接口位置，当前演示环境不会提交真实业务数据。");
+      showToast("此控件已保留为下一阶段接口位置，当前客户测试环境不会提交真实业务数据。");
       return;
     }
   }
@@ -1302,16 +1493,29 @@ $("#runPublishCheck")?.addEventListener("click", () => {
   const failures = publishChecks(content).filter((item) => !item.pass).length;
   showToast(failures ? "检查完成，仍有 " + failures + " 项需要处理。" : "发布检查全部通过。", failures ? "error" : "success");
 });
+$("#generateCanonical")?.addEventListener("click", generateCanonicalForSelected);
+$("#previewPublic")?.addEventListener("click", previewSelectedContent);
+$("#publishNow")?.addEventListener("click", publishSelectedContent);
+$("#unpublishNow")?.addEventListener("click", unpublishSelectedContent);
+$("#exportCmsData")?.addEventListener("click", exportCmsData);
+$("#importCmsData")?.addEventListener("click", () => $("#importCmsFile")?.click());
+$("#importCmsFile")?.addEventListener("change", (event) => importCmsData(event.target.files?.[0]));
 
 $("#notificationButton")?.addEventListener("click", () => {
   const reviewCount = state.contents.filter((item) => reviewStatuses.includes(item.status)).length;
-  showToast("当前有 " + reviewCount + " 条审核待办；演示环境不会发送真实通知。");
+  showToast("当前有 " + reviewCount + " 条审核待办；客户测试环境不会发送真实通知。");
 });
 
 $("#resetDemo")?.addEventListener("click", () => {
   const confirmed = window.confirm("确定重置 CMS 演示数据吗？本机浏览器中的修改将被清除。");
   if (!confirmed) return;
   state = cloneSeed();
+  if (publicStore) {
+    publicStore.importSnapshot({
+      schemaVersion: publicStore.schemaVersion,
+      records: []
+    });
+  }
   persistState();
   renderAll();
   switchView("dashboard");
@@ -1339,3 +1543,4 @@ renderAll();
 const initialView = window.location.hash.slice(1);
 switchView(viewLabels[initialView] ? initialView : "dashboard");
 document.body.dataset.ready = "true";
+

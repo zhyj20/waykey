@@ -28,6 +28,8 @@ const newsPanels = Array.from(document.querySelectorAll("[data-news-panel]"));
 const slideButtons = Array.from(document.querySelectorAll("[data-slide]"));
 const featureTitle = document.querySelector("#featureTitle");
 const featureSummary = document.querySelector("#featureSummary");
+const publishedFeed = document.querySelector("#publishedFeed");
+const contentStore = window.TrustContentStore || null;
 const dialogTriggers = new WeakMap();
 
 const serviceDescriptions = {
@@ -242,7 +244,14 @@ function openRecord(recordId, trigger) {
 }
 
 document.querySelectorAll("[data-record]").forEach((button) => {
-  button.addEventListener("click", () => openRecord(button.getAttribute("data-record"), button));
+  button.addEventListener("click", () => {
+    const recordId = button.getAttribute("data-record");
+    if (contentStore?.getById(recordId)) {
+      window.location.href = contentStore.articleUrl(recordId, false);
+      return;
+    }
+    openRecord(recordId, button);
+  });
 });
 
 recordDialogClose?.addEventListener("click", () => closeDialog(recordDialog));
@@ -289,6 +298,44 @@ slideButtons.forEach((button) => {
     if (featureSummary) featureSummary.textContent = slide.summary;
   });
 });
+
+function renderPublishedFeed() {
+  if (!publishedFeed || !contentStore) return;
+  const items = contentStore.getPublished().slice(0, 4);
+  publishedFeed.replaceChildren();
+
+  items.forEach((item) => {
+    const link = document.createElement("a");
+    link.className = "release-card searchable";
+    link.href = contentStore.articleUrl(item.id, false);
+    link.dataset.search = [item.title, item.summary, item.channel, ...(item.keywords || [])].join(" ");
+
+    const meta = document.createElement("div");
+    meta.className = "release-card-meta";
+    const channel = document.createElement("span");
+    channel.textContent = item.channel || item.type || "资讯";
+    const date = document.createElement("time");
+    date.dateTime = item.publishedAt || "";
+    date.textContent = item.publishedAt || "待更新";
+    meta.append(channel, date);
+
+    const title = document.createElement("h3");
+    title.textContent = item.title;
+    const summary = document.createElement("p");
+    summary.textContent = item.summary;
+
+    const footer = document.createElement("div");
+    footer.className = "release-card-footer";
+    const source = document.createElement("span");
+    source.textContent = (item.sources?.length || 0) + " 条来源记录";
+    const action = document.createElement("span");
+    action.textContent = "查看全文";
+    footer.append(source, action);
+
+    link.append(meta, title, summary, footer);
+    publishedFeed.append(link);
+  });
+}
 
 function collectSearchResults(query) {
   const normalizedQuery = query.trim().toLowerCase();
@@ -368,4 +415,11 @@ searchDialogClose?.addEventListener("click", () => closeDialog(searchDialog));
   });
 });
 
+renderPublishedFeed();
+window.addEventListener("trustsource:content-change", renderPublishedFeed);
+window.addEventListener("storage", (event) => {
+  if (event.key === contentStore?.storageKey) renderPublishedFeed();
+});
+
 document.body.dataset.ready = "true";
+
