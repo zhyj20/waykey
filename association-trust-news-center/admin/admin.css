@@ -308,6 +308,15 @@ h1, h2, h3, p { margin-top: 0; }
 .primary-command:hover { border-color: var(--blue-900); background: var(--blue-900); }
 .secondary-command { border: 1px solid var(--line-strong); color: var(--ink); background: #fff; }
 .secondary-command:hover { color: var(--blue-800); border-color: #90aebf; background: var(--blue-100); }
+.primary-command:disabled,
+.secondary-command:disabled {
+  cursor: not-allowed;
+  opacity: .52;
+}
+.primary-command:disabled:hover {
+  border-color: var(--blue-800);
+  background: var(--blue-800);
+}
 .text-command {
   min-height: 30px;
   padding: 0 4px;
@@ -719,6 +728,30 @@ h1, h2, h3, p { margin-top: 0; }
 .publish-checklist strong, .publish-checklist small { display: block; }
 .publish-checklist strong { font-size: 12px; }
 .publish-checklist small { color: var(--muted); font-size: 10px; }
+.release-gate {
+  display: grid;
+  gap: 12px;
+  padding: 15px;
+  border-top: 1px solid var(--line);
+  background: var(--surface-soft);
+}
+.release-gate > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.release-gate p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+.publish-actions,
+.data-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 .schema-panel pre {
   min-height: 380px;
   margin: 0;
@@ -758,6 +791,32 @@ h1, h2, h3, p { margin-top: 0; }
 .integration-list div:last-child { border-bottom: 0; }
 .integration-list dt { font-size: 11px; font-weight: 700; }
 .integration-list dd { margin: 0; color: var(--muted); font-size: 11px; }
+.data-portability {
+  grid-column: 1 / -1;
+  padding-bottom: 15px;
+}
+.data-portability > p,
+.data-portability > small,
+.data-portability > .data-tools {
+  margin-right: 15px;
+  margin-left: 15px;
+}
+.data-portability > p {
+  margin-top: 14px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+.data-portability > small {
+  display: block;
+  margin-top: 11px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.data-tools a {
+  text-decoration: none;
+}
 .editor-drawer {
   position: fixed;
   z-index: 120;
@@ -1082,3 +1141,4 @@ h1, h2, h3, p { margin-top: 0; }
 .table-frame {
   overflow: hidden;
 }
+

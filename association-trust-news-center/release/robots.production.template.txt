@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: ${PUBLIC_BASE_URL}/sitemap.xml
+

@@ -1,14 +1,14 @@
-﻿<!doctype html>
-<html lang="zh-CN" data-environment="demo">
+<!doctype html>
+<html lang="zh-CN" data-environment="client-preview">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>广东省信用协会 CMS 运营后台演示</title>
-  <meta name="description" content="广东省信用协会可信资讯中心 CMS 运营后台项目原型，覆盖内容、审核、来源、会员报送与 SEO/GEO 发布检查。">
+  <title>广东省信用协会 CMS 运营后台 | 客户测试环境</title>
+  <meta name="description" content="广东省信用协会可信资讯中心 CMS 客户测试后台，覆盖内容、审核、来源、会员报送与 SEO/GEO 发布检查。">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="theme-color" content="#0b4a78">
   <link rel="stylesheet" href="../assets/icons/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="admin.css?v=2026071702">
+  <link rel="stylesheet" href="admin.css?v=2026073101">
 </head>
 <body>
   <a class="skip-link" href="#workspace">跳到工作区</a>
@@ -22,7 +22,7 @@
           <span>CMS 运营后台</span>
         </div>
       </div>
-      <div class="environment-label"><i class="bi bi-beaker" aria-hidden="true"></i> 演示环境 · 本机数据</div>
+      <div class="environment-label"><i class="bi bi-laptop" aria-hidden="true"></i> 客户测试环境 · 浏览器数据</div>
 
       <nav class="sidebar-nav">
         <p>工作台</p>
@@ -88,7 +88,7 @@
 
           <div class="demo-notice">
             <i class="bi bi-info-circle" aria-hidden="true"></i>
-            <p><strong>CMS 功能演示</strong> 当前操作仅保存在本机浏览器，不连接协会账号、数据库、正式域名或发布接口。</p>
+            <p><strong>客户测试环境</strong> 可完整体验编辑、审核、发布与前台预览；数据保存在当前浏览器，尚未接入协会账号和生产数据库。</p>
             <a href="#settings" data-view-link="settings">查看接入清单</a>
           </div>
 
@@ -227,8 +227,20 @@
         <section class="workspace-view" data-view="publish" aria-labelledby="publishTitle">
           <div class="view-heading"><div><p class="eyebrow">SEO / GEO RELEASE</p><h1 id="publishTitle">SEO / GEO 发布检查</h1><p>机器可读只是发布质量的一部分；收录和 AI 引用需在真实发布后监测验证。</p></div><button class="secondary-command" type="button" id="runPublishCheck"><i class="bi bi-play-fill" aria-hidden="true"></i> 运行检查</button></div>
           <div class="publish-layout">
-            <section class="checklist-panel"><div class="section-heading"><div><h2>发布检查项</h2><p id="publishSelectedTitle">未选择内容</p></div><select id="publishContentSelect" aria-label="选择待检查内容"></select></div><ul id="publishChecklist" class="publish-checklist"></ul></section>
-            <section class="schema-panel"><div class="section-heading"><div><h2>结构化摘要预览</h2><p>演示输出，不写入正式站点</p></div></div><pre id="schemaPreview"></pre></section>
+            <section class="checklist-panel">
+              <div class="section-heading"><div><h2>发布检查项</h2><p id="publishSelectedTitle">未选择内容</p></div><select id="publishContentSelect" aria-label="选择待检查内容"></select></div>
+              <ul id="publishChecklist" class="publish-checklist"></ul>
+              <div class="release-gate">
+                <div><span id="publishGateStatus" class="status-pill status-first_review">等待检查</span><p id="publishGateSummary">完成全部检查后可发布到本次客户预览首页。</p></div>
+                <div class="publish-actions">
+                  <button class="secondary-command" type="button" id="generateCanonical"><i class="bi bi-link-45deg" aria-hidden="true"></i> 生成规范地址</button>
+                  <button class="secondary-command" type="button" id="previewPublic"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> 预览前台</button>
+                  <button class="primary-command" type="button" id="publishNow"><i class="bi bi-send-check" aria-hidden="true"></i> 发布到预览站</button>
+                  <button class="secondary-command danger-command" type="button" id="unpublishNow" hidden><i class="bi bi-eye-slash" aria-hidden="true"></i> 撤下预览</button>
+                </div>
+              </div>
+            </section>
+            <section class="schema-panel"><div class="section-heading"><div><h2>结构化摘要预览</h2><p>与文章详情页字段同步</p></div></div><pre id="schemaPreview"></pre></section>
           </div>
         </section>
 
@@ -248,7 +260,7 @@
         </section>
 
         <section class="workspace-view" data-view="settings" aria-labelledby="settingsTitle">
-          <div class="view-heading"><div><p class="eyebrow">SYSTEM READINESS</p><h1 id="settingsTitle">系统设置与接入清单</h1><p>以下是从演示原型切换到协会正式系统前必须完成的工程与治理项。</p></div></div>
+          <div class="view-heading"><div><p class="eyebrow">SYSTEM READINESS</p><h1 id="settingsTitle">系统设置与接入清单</h1><p>以下是从客户测试环境切换到协会正式系统前必须完成的工程与治理项。</p></div></div>
           <div class="settings-layout">
             <section class="settings-group"><h2>主体与发布</h2><div id="deploymentChecklist" class="settings-rows"></div></section>
             <section class="settings-group"><h2>系统集成</h2><dl class="integration-list">
@@ -258,6 +270,17 @@
               <div><dt>微信生态</dt><dd>未接入公众号、模板消息与小程序</dd></div>
               <div><dt>搜索与监测</dt><dd>未接入站点地图提交、索引状态与 AI 答案监测</dd></div>
             </dl></section>
+            <section class="settings-group data-portability">
+              <h2>测试数据与交付</h2>
+              <p>导出稿件、来源、审核记录和已发布内容，便于客户测试留档或在另一台设备继续验证。</p>
+              <div class="data-tools">
+                <button class="secondary-command" type="button" id="exportCmsData"><i class="bi bi-download" aria-hidden="true"></i> 导出测试数据</button>
+                <button class="secondary-command" type="button" id="importCmsData"><i class="bi bi-upload" aria-hidden="true"></i> 导入测试数据</button>
+                <a class="secondary-command" href="../index.html"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> 查看发布结果</a>
+                <input id="importCmsFile" type="file" accept="application/json,.json" hidden>
+              </div>
+              <small>正式环境需改用服务端数据库、对象存储、权限控制和不可抵赖审计日志。</small>
+            </section>
           </div>
         </section>
       </main>
@@ -340,6 +363,10 @@
   </dialog>
 
   <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
-  <script src="admin.js?v=2026071701"></script>
+  <script src="../site-config.js?v=2026073101"></script>
+  <script src="../content-store.js?v=2026073101"></script>
+  <script src="cms-config.js?v=2026073101"></script>
+  <script src="admin.js?v=2026073101"></script>
 </body>
 </html>
+
